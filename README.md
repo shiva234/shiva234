@@ -101,4 +101,18 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mapView.onLowMemory()
     }
 }
+<script src="https://earthengine.googleapis.com/v1alpha/<API_VERSION>/earthengine-api.min.js"></script>
+ee.initialize(null, null, () => {
+    // Your Earth Engine code here
+});
+const image = ee.Image('LANDSAT/LC08/C01/T1_TOA/LC08_044034_20140318');
+const visParams = {bands: ['B4', 'B3', 'B2'], max: 0.3};
+const layer = ee.layers.ImageOverlay(image, visParams, 'Landsat 8');
+
+const map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 37.75, lng: -122.25},
+    zoom: 10
+});
+
+map.overlayMapTypes.push(layer);
 
